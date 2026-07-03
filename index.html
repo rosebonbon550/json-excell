@@ -4,92 +4,27 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Convertisseur JSON en Excel / CSV Premium</title>
-    <meta name="description" content="Convertissez vos fichiers de données JSON en tableaux Excel ou CSV gratuitement et instantanément. Outil rapide, sécurisé et sans inscription.">
-    <meta name="keywords" content="convertisseur json excel, json en excel, json en csv, extraire json tableau, gratuit, outil en ligne">
-    
-    <!-- Script pour générer de vrais fichiers Excel -->
     <script src="https://cloudflare.com"></script>
-
     <style>
-        :root {
-            --primary: #10b981;
-            --primary-hover: #059669;
-            --bg: #f0fdf4;
-            --card: #ffffff;
-            --text: #1f2937;
-            --premium: #ffdd00;
-            --premium-text: #000000;
-        }
-        body {
-            font-family: system-ui, -apple-system, sans-serif;
-            background-color: var(--bg);
-            color: var(--text);
-            margin: 0;
-            padding: 2rem;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-        }
-        .container {
-            max-width: 600px;
-            width: 100%;
-            background: var(--card);
-            padding: 2rem;
-            border-radius: 12px;
-            box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1);
-            text-align: center;
-        }
-        h1 { margin-top: 0; font-size: 1.75rem; color: #065f46; }
-        .options-panel {
-            background: #f3f4f6;
-            padding: 1rem;
-            border-radius: 8px;
-            margin-bottom: 1.5rem;
-            text-align: left;
-        }
-        .options-title { font-weight: 600; margin-bottom: 0.5rem; font-size: 0.9rem; }
+        :root { --primary: #10b981; --primary-hover: #059669; --bg: #f0fdf4; --card: #ffffff; --text: #1f2937; --premium: #ffdd00; }
+        body { font-family: system-ui, sans-serif; background-color: var(--bg); color: var(--text); margin: 0; padding: 2rem; display: flex; flex-direction: column; align-items: center; }
+        .container { max-width: 600px; width: 100%; background: var(--card); padding: 2rem; border-radius: 12px; box-shadow: 0 4px 6px rgb(0 0 0 / 0.1); text-align: center; }
+        h1 { margin-top: 0; color: #065f46; }
+        .options-panel { background: #f3f4f6; padding: 1rem; border-radius: 8px; margin-bottom: 1.5rem; text-align: left; }
         .radio-group { display: flex; flex-direction: column; gap: 0.5rem; }
         .radio-label { display: flex; align-items: center; gap: 0.25rem; cursor: pointer; }
         .badge-pro { background: #6366f1; color: white; font-size: 0.7rem; padding: 0.1rem 0.4rem; border-radius: 4px; font-weight: bold; margin-left: 0.3rem; }
-        .drop-zone {
-            border: 2px dashed #6ee7b7;
-            padding: 2rem;
-            border-radius: 8px;
-            cursor: pointer;
-            margin-bottom: 1.5rem;
-            transition: border-color 0.2s;
-            display: block;
-            background: #f9fafb;
-        }
-        .drop-zone:hover { border-color: var(--primary); }
-        input[type="file"] { display: none; }
-        button {
-            background-color: var(--primary);
-            color: white;
-            border: none;
-            padding: 0.75rem 1.5rem;
-            font-size: 1rem;
-            border-radius: 6px;
-            cursor: pointer;
-            font-weight: 600;
-            width: 100%;
-            display: none;
-            margin-bottom: 1.5rem;
-        }
+        .drop-zone { border: 2px dashed #6ee7b7; padding: 2rem; border-radius: 8px; cursor: pointer; margin-bottom: 1.5rem; display: block; background: #f9fafb; }
+        button { background-color: var(--primary); color: white; border: none; padding: 0.75rem 1.5rem; font-size: 1rem; border-radius: 6px; cursor: pointer; font-weight: 600; width: 100%; display: none; margin-bottom: 1.5rem; }
         button:hover { background-color: var(--primary-hover); }
         #preview-box { background: #f9fafb; padding: 1rem; border-radius: 6px; text-align: left; max-height: 150px; overflow-y: auto; font-family: monospace; font-size: 0.8rem; margin-bottom: 1.5rem; display: none; border: 1px solid #e5e7eb; }
-        .modal {
-            display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-            background: rgba(0,0,0,0.5); align-items: center; justify-content: center; z-index: 100;
-        }
-        .modal-content {
-            background: white; padding: 2rem; border-radius: 12px; max-width: 400px; width: 90%; text-align: center;
-        }
-        .btn-buy { background: var(--premium); color: var(--premium-text); padding: 0.75rem; border-radius: 6px; text-decoration: none; display: block; font-weight: bold; margin: 1rem 0; box-shadow: 0 4px 6px -1px rgba(0,0,0,0.1); }
-        .btn-close { color: #64748b; background: none; border: none; display: inline; cursor: pointer; text-decoration: underline; font-size: 0.9rem; }
+        .modal { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.5); align-items: center; justify-content: center; z-index: 100; }
+        .modal-content { background: white; padding: 2rem; border-radius: 12px; max-width: 400px; width: 90%; text-align: center; }
+        .btn-buy { background: var(--premium); color: black; padding: 0.75rem; border-radius: 6px; text-decoration: none; display: block; font-weight: bold; margin: 1rem 0; }
+        .btn-close { color: #64748b; background: none; border: none; cursor: pointer; text-decoration: underline; font-size: 0.9rem; }
         .pro-auth { margin-top: 1rem; display: flex; gap: 0.5rem; }
         .pro-auth input { flex: 1; padding: 0.5rem; border: 1px solid #cbd5e1; border-radius: 4px; }
-        .pro-auth button { display: block; width: auto; margin: 0; padding: 0.5rem 1rem; font-size: 0.9rem; background: #374151; color: white; border: none; border-radius: 4px; cursor: pointer; }
+        .pro-auth button { display: block; width: auto; margin: 0; padding: 0.5rem 1rem; background: #374151; color: white; border: none; border-radius: 4px; }
         .ads-container { margin-top: 2rem; border-top: 1px solid #e5e7eb; padding-top: 1.5rem; min-height: 90px; }
         .ads-label { font-size: 0.75rem; color: #9ca3af; margin-bottom: 0.75rem; text-transform: uppercase; }
         .ads-box-real { width: 728px; height: 90px; max-width: 100%; margin: 0 auto; display: block; }
@@ -104,19 +39,14 @@
             const codeProInput = document.getElementById('codeProInput');
             const validerCodeBtn = document.getElementById('validerCodeBtn');
             const adsBox = document.getElementById('adsBox');
-            
-            let jsonData = null;
-            let originalName = 'tableau_donnees';
-            let isProUser = false;
+            let jsonData = null, originalName = 'tableau_donnees', isProUser = false;
 
             validerCodeBtn.addEventListener('click', () => {
                 if (codeProInput.value.trim() === "PREMIUM2026") {
                     isProUser = true;
                     if(adsBox) adsBox.style.display = 'none'; 
                     alert("Félicitations ! Version Premium activée avec succès. 🎉");
-                } else {
-                    alert("Code invalide.");
-                }
+                } else { alert("Code invalide."); }
             });
 
             window.checkPro = function(e) {
@@ -126,43 +56,30 @@
                     proModal.style.display = 'flex';
                 }
             };
-
             window.closeModal = function() { proModal.style.display = 'none'; };
 
             fileInput.addEventListener('change', (e) => {
                 const files = e.target.files;
                 if (!files || files.length === 0) return;
-
                 const file = files[0];
                 originalName = file.name.substring(0, file.name.lastIndexOf('.'));
                 const reader = new FileReader();
-                
                 reader.onload = function(event) {
                     try {
                         const content = event.target.result;
                         jsonData = JSON.parse(content);
-                        
-                        if (!Array.isArray(jsonData)) {
-                            jsonData = [jsonData];
-                        }
-
+                        if (!Array.isArray(jsonData)) jsonData = [jsonData];
                         previewBox.textContent = content.substring(0, 500) + (content.length > 500 ? '...' : '');
-                        previewBox.style.display = 'block';
-                        convertBtn.style.display = 'block';
+                        previewBox.style.display = 'block'; convertBtn.style.display = 'block';
                         dropText.textContent = `Fichier chargé : ${file.name}`;
-                    } catch (err) {
-                        alert("Erreur : Ce fichier n'est pas un JSON valide.");
-                        fileInput.value = '';
-                    }
+                    } catch (err) { alert("Erreur : Fichier JSON invalide."); }
                 };
                 reader.readAsText(file);
             });
 
             convertBtn.addEventListener('click', () => {
-                if (!jsonData || jsonData.length === 0) return;
-
+                if (!jsonData) return;
                 const format = document.querySelector('input[name="format"]:checked').value;
-                
                 if (format === 'excel' && isProUser) {
                     const worksheet = XLSX.utils.json_to_sheet(jsonData);
                     const workbook = XLSX.utils.book_new();
@@ -171,38 +88,51 @@
                 } else {
                     const keys = Object.keys(jsonData[0]);
                     const csvRows = [keys.join(',')];
-                    
                     for (const row of jsonData) {
-                        const values = keys.map(key => {
-                            const val = row[key] === null || row[key] === undefined ? '' : row[key];
-                            return '"' + String(val).replace(/"/g, '""') + '"';
-                        });
+                        const values = keys.map(key => '"' + String(row[key] || '').replace(/"/g, '""') + '"');
                         csvRows.push(values.join(','));
                     }
-                    
-                    const csvContent = "data:text/csv;charset=utf-8,\uFEFF" + csvRows.join('\n');
-                    const encodedUri = encodeURI(csvContent);
-                    const downloadLink = document.createElement('a');
-                    downloadLink.href = encodedUri;
-                    downloadLink.download = originalName + '.csv';
-                    document.body.appendChild(downloadLink);
-                    downloadLink.click();
-                    document.body.removeChild(downloadLink);
+                    const blob = new Blob(["\uFEFF" + csvRows.join('\n')], { type: 'text/csv;charset=utf-8;' });
+                    const url = URL.createObjectURL(blob);
+                    const a = document.createElement('a'); a.href = url; a.download = originalName + '.csv';
+                    document.body.appendChild(a); a.click(); document.body.removeChild(a);
                 }
             });
         });
     </script>
 </head>
 <body>
-
 <div class="container">
     <h1>Convertisseur JSON en Excel / CSV</h1>
     <p>Sélectionnez un fichier .json pour extraire vos données en tableau propre.</p>
-    
     <div class="options-panel">
         <div class="options-title">Format de sortie du tableau :</div>
         <div class="radio-group">
-            <label class="radio-label">
-                <input type="radio" name="format" value="csv" id="formatCsv" checked> Exporter au format CSV Standard (Gratuit)
-            </label>
-            <label class="radio-label" onclick="checkPro(event)">
+            <label class="radio-label"><input type="radio" name="format" value="csv" id="formatCsv" checked> Exporter au format CSV Standard (Gratuit)</label>
+            <label class="radio-label" onclick="checkPro(event)"><input type="radio" name="format" value="excel" id="formatExcel"> Exporter en vrai TABLEAU EXCEL (.xlsx) <span class="badge-pro">PRO</span></label>
+        </div>
+    </div>
+    <label class="drop-zone" id="dropZone"><span>Choisir un fichier JSON (.json)</span><input type="file" id="fileInput" accept=".json"></label>
+    <div id="preview-box"></div>
+    <button id="convertBtn">Télécharger le tableau</button>
+    <div class="pro-auth"><input type="text" id="codeProInput" placeholder="Entrez votre code Premium"><button id="validerCodeBtn">Activer</button></div>
+    <div class="ads-container" id="adsBox">
+        <div class="ads-label">Publicité</div>
+        <div class="ads-box-real">
+            <script type="text/javascript">
+                atOptions = { 'key' : '3f4f3e265c2a3aaaee43a1375a8bd50d', 'format' : 'iframe', 'height' : 90, 'width' : 728, 'params' : {} };
+            </script>
+            <script type="text/javascript" src="https://highperformanceformat.com"></script>
+        </div>
+    </div>
+</div>
+<div class="modal" id="proModal">
+    <div class="modal-content">
+        <h2>Débloquez la version Premium 🚀</h2>
+        <p>Générez des fichiers officiels Microsoft Excel (.xlsx) parfaitement formatés et masquez les publicités.</p>
+        <a href="https://buymeacoffee.com" target="_blank" class="btn-buy">Obtenir l'accès Premium pour 2.00$</a>
+        <button class="btn-close" onclick="closeModal()">Plus tard</button>
+    </div>
+</div>
+</body>
+</html>
